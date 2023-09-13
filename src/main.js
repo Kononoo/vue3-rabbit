@@ -8,6 +8,11 @@ import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+//测试接口函数
+import {getCategory} from '@/apis/testAPI'
+getCategory().then(res => {
+    console.log(res)
+})
 const app = createApp(App)
 
 app.use(createPinia())
