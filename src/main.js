@@ -6,8 +6,9 @@ import App from './App.vue'
 import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+
 // 引入初始化样式文件
-import '@/styles/element/index.scss'
+import '@/styles/common.scss'
 
 //测试接口函数
 import {getCategory} from '@/apis/testAPI'

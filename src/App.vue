@@ -1,21 +1,13 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
 
 </script>
 
 <template>
-  <!-- 一级路由出口文件 -->
-  <router-view />
-  <div class="test">
-    test scss
-  </div>
+  <!-- 一级路由出口组件 -->
+  <RouterView />
 </template>
 
 <style scoped lang="scss">
-.test {
-  color: $priceColor;
-}
-
 header {
   line-height: 1.5;
   max-height: 100vh;
