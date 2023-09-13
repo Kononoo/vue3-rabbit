@@ -1,4 +1,15 @@
 <script setup>
+import {getCategoryAPI} from "@/apis/layouts";
+import {reactive, onMounted} from "vue";
+
+let categoryList = reactive([])
+const getCategory = async () => {
+  const res = await getCategoryAPI()
+  console.log(res)
+  categoryList = res.result
+}
+
+onMounted(() => {getCategory()})
 
 </script>
 
@@ -9,12 +20,9 @@
         <RouterLink to="/">小兔鲜</RouterLink>
       </h1>
       <ul class="app-header-nav">
-        <li class="home">
-          <router-link to="/">首页</router-link>
+        <li class="home" v-for="item in categoryList" :key="item.id">
+          <router-link to="/">{{ item.name }}</router-link>
         </li>
-        <li><router-link to="/">居家</router-link></li>
-        <li><router-link to="/">美食</router-link></li>
-        <li><router-link to="/">服饰</router-link></li>
       </ul>
       <div class="search">
         <i class="iconfont icon-search"></i>
