@@ -1,12 +1,13 @@
 <script setup>
 import {getCategoryAPI} from "@/apis/layouts";
-import {reactive, onMounted} from "vue";
+import {ref, reactive, onMounted} from "vue";
+const categoryList = ref([])
 
-let categoryList = reactive([])
 const getCategory = async () => {
   const res = await getCategoryAPI()
   console.log(res)
-  categoryList = res.result
+  categoryList.value = res.result
+  console.log((categoryList))
 }
 
 onMounted(() => {getCategory()})
