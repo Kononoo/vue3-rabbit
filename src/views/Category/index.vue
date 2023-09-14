@@ -1,33 +1,14 @@
 <script setup>
-import {getCategoryAPI} from "@/apis/category";
-import {getBannerAPI} from "@/apis/home";
-import {useRoute, onBeforeRouteUpdate} from "vue-router";
-import {ref, onMounted, onUpdated} from 'vue'
+
 import GoodsItem from "@/views/Home/components/GoodsItem.vue";
+import {useBanner} from "@/views/Category/composables/useBanner";
+import {useCategory} from "@/views/Category/composables/useCategory";
 
-// 获取数据
-const categoryData = ref({})
-// 返回当前路由位置，在组件内部获取路由参数
-const route = useRoute()
-const getCategory = async (to = route.params.id) => {
-  const res = await getCategoryAPI(to)
-  categoryData.value = res.result
-}
+// 主打一个业务逻辑和数据渲染分离
+// use开头，内部封装逻辑，return 组件需要用到的数据和方法给组件消费
+const {bannerList} = useBanner()
+const {categoryData} = useCategory()
 
-// 获取Banner
-const bannerList = ref([])
-const getBanner= async () => {
-  const res = await getBannerAPI({
-    distributionSite: '2'
-  })
-  bannerList.value = res.result
-}
-
-onMounted(() => {getCategory(), getBanner()})
-onBeforeRouteUpdate((to) => {
-  // 获取最新的路由参数请求最新的分类数据
-  getCategory(to.params.id)
-})
 
 </script>
 
