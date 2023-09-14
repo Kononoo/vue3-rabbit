@@ -16,6 +16,8 @@
   <LayoutFixed />
   <LayoutNav />
   <LayoutHeader />
+  <!-- 分类页面复用解决 方法1:添加key，使之不能复用 -->
+  <!--  <RouterView :key="$route.fullPath"/>-->
   <RouterView />
   <LayoutFooter />
 </template>
