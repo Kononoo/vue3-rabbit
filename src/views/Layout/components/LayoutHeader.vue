@@ -1,6 +1,4 @@
 <script setup>
-import {getCategoryAPI} from "@/apis/layouts";
-import {ref, reactive, onMounted} from "vue";
 import {useCategoryStore} from "@/stores/category";
 
 // 使用Pinia数据
