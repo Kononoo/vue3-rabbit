@@ -1,11 +1,11 @@
 <script setup>
 import HomePanel from "@/views/Home/components/HomePanel.vue";
 import {ref} from "vue";
-import {findNewAPI} from "@/apis/home";
+import {getNewAPI} from "@/apis/home";
 
 const newList = ref([])
 const getNewList = async () => {
-  const res = await findNewAPI()
+  const res = await getNewAPI()
   newList.value = res.result
 }
 getNewList()
