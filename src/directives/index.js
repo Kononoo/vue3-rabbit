@@ -11,7 +11,7 @@ export const lazyPlugin = {
                     el, ([{ isIntersecting }]) => {
                         // 进入视口区域
                         if (isIntersecting) {
-                            el.src = binding
+                            el.src = binding.value
                             stop()
                         }
                     },
