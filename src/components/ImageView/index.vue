@@ -37,7 +37,6 @@ const positionY = ref(0)
 watch([elementX, elementY, isOutside], () => {
   // 鼠标离开则不执行
   if (isOutside.value) return
-  console.log(elementX.value, elementY.value)
   if (elementX.value > 100 && elementX.value < 300) {
     left.value = elementX.value - 100
   }
