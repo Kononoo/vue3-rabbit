@@ -18,6 +18,7 @@ app.use(ElementPlus)
 app.use(lazyPlugin)
 app.mount('#app')
 
+console.log("router:", router)
 
 // app.directive('img-lazy', {
 //     mounted(el, binding) {
