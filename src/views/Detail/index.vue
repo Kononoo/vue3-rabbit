@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import {useRoute} from "vue-router";
 import {getDetail} from "@/apis/detail";
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
+import ImageView from "@/components/ImageView/index.vue"
 
 const goods = ref([])
 const route = useRoute()
@@ -38,7 +39,7 @@ getGoods()
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+              <ImageView />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -94,7 +95,7 @@ getGoods()
               <div>
                 <el-button size="large" class="btn">
                   加入购物车
-                </el-button>
+                </el-button>i
               </div>
 
             </div>
@@ -121,7 +122,9 @@ getGoods()
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
+              <!-- 24小时热榜 -->
               <DetailHot :type="1" />
+              <!-- 周热榜 -->
               <DetailHot :type="2" />
             </div>
           </div>
