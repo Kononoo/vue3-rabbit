@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useRoute} from "vue-router";
 import {getDetail} from "@/apis/detail";
+import DetailHot from "@/views/Detail/components/DetailHot.vue";
 
 const goods = ref([])
 const route = useRoute()
@@ -120,7 +121,8 @@ getGoods()
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-
+              <DetailHot :type="1" />
+              <DetailHot :type="2" />
             </div>
           </div>
         </div>
