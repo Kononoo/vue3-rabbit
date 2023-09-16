@@ -1,8 +1,20 @@
 <script setup>
 
 import {useUserStore} from "@/stores/user";
+import router from "@/router";
 const userStore = useUserStore()
-console.log(userStore.userInfo)
+
+const confirm = () => {
+  console.log("用户退出登录")
+  // 1 清除用户信息
+  userStore.clearUserInfo()
+  // 2 返回到登录页
+  // router.replace({path: '/login'})
+  setTimeout(() => {
+    router.push('/login')
+  }, 500)
+}
+
 </script>
 
 <template>
@@ -13,10 +25,9 @@ console.log(userStore.userInfo)
         <template v-if="userStore.userInfo.token">
           <li><a href=""><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a></li>
           <li>
-            <el-popconfirm title="确认退出吗？" confirm-button-text="确认" cancel-button-text="取消">
+            <el-popconfirm @confirm="confirm" title="确认退出吗？" confirm-button-text="确认" cancel-button-text="取消">
               <template #reference>
                 <a href="javascript:;">退出登录</a>
-
               </template>
             </el-popconfirm>
           </li>
