@@ -19,12 +19,17 @@ export const useCartStore = defineStore('Cart', () => {
         } else {
             cartList.value.push(goods)
         }
-        allPrice.value += goods.price
+        console.log(allPrice)
+        allPrice.value += parseFloat(goods.price)
+        console.log(allPrice)
     }
 
     const delCart = (skuId) => {
-        const index = cartList.value.findIndex(item => item.skuId === skuId && (allPrice.value -= item.value))
+        // 根据skuId删除数据 1 findIndex   2 filter
+        const index = cartList.value.findIndex(item => item.skuId === skuId)
+        allPrice.value -= parseFloat(cartList.value[index].price)
         cartList.value.splice(index, 1)
+        // cartList.value = cartList.value.filter(item => item.skuId !== skuId)
     }
 
     return {
