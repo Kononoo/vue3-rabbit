@@ -1,10 +1,12 @@
 <script setup>
 
 // 表单校验功能 (账户名+密码)
+import router from "@/router";
 import {ref, reactive} from "vue";
-import {LoginAPI} from "@/apis/login";
 import {ElMessage} from "element-plus";
-import {useRoute} from "vue-router";
+import {useUserStore} from "@/stores/user";
+
+const userStore = useUserStore()
 
 // 1 准备表单对象
 const form = reactive({
@@ -39,13 +41,12 @@ const doLogin = () => {
     console.log(valid)
     // 登录功能业务
     if (valid) {
-      const res = await LoginAPI(form)
-      console.log(res)
+      // const res = await LoginAPI(form)
+      await userStore.getUserInfo(form)
       // 1.提示用户
       ElMessage({type: 'success', message: '登录成功'})
       // 2.跳转首页
-      const router = useRoute()
-      router.replace({path: '/'})
+      await router.replace({path: '/'})
     }
   })
 }
