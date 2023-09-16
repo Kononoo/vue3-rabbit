@@ -3,6 +3,7 @@
 import axios from "axios";
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/stores/user";
+import router from "@/router";
 
 const httpInstance = axios.create({
     baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
@@ -27,6 +28,19 @@ httpInstance.interceptors.response.use(res => res.data, e => {
         type: "warning",
         message: e.response.data.message
     })
+    // 401token失效处理
+    // 1 清除本地数据   2 跳转登录页
+    if (e.response.status === 401) {
+        const userStore = useUserStore()
+        userStore.clearUserInfo()
+        ElMessage({
+            type: 'error',
+            message: '登录身份过期，请重新登录!'
+        })
+        setTimeout(() => {
+            router.push('/login')
+        }, 500)
+    }
     return Promise.reject(e)
 })
 
