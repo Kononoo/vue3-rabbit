@@ -2,6 +2,10 @@
 
 // 表单校验功能 (账户名+密码)
 import {ref, reactive} from "vue";
+import {LoginAPI} from "@/apis/login";
+import {ElMessage} from "element-plus";
+import {useRoute} from "vue-router";
+
 // 1 准备表单对象
 const form = reactive({
   account: '',
@@ -30,12 +34,19 @@ const rules = {
 const formRef = ref(null)
 const doLogin = () => {
   // 调用实例方法
-  formRef.value.validate((valid) => {
+  formRef.value.validate(async (valid) => {
     // valid:所有表单通过校验才为true
     console.log(valid)
-    /**
-     * TODO LOGIN
-     */
+    // 登录功能业务
+    if (valid) {
+      const res = await LoginAPI(form)
+      console.log(res)
+      // 1.提示用户
+      ElMessage({type: 'success', message: '登录成功'})
+      // 2.跳转首页
+      const router = useRoute()
+      router.replace({path: '/'})
+    }
   })
 }
 // 输入数据检验：看文档方式使用，简单校验只需要按文档来，自定义检验就自己添加
