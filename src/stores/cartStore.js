@@ -6,6 +6,9 @@ import {ref} from 'vue'
 export const useCartStore = defineStore('Cart', () => {
     // 1 定义state - cartList
     const cartList = ref([])
+
+    const allPrice = ref(0)
+
     // 2 定义action - addCart
     const addCart = (goods) => {
         // 添加购物车操作
@@ -16,11 +19,19 @@ export const useCartStore = defineStore('Cart', () => {
         } else {
             cartList.value.push(goods)
         }
+        allPrice.value += goods.price
+    }
+
+    const delCart = (skuId) => {
+        const index = cartList.value.findIndex(item => item.skuId === skuId && (allPrice.value -= item.value))
+        cartList.value.splice(index, 1)
     }
 
     return {
         cartList,
-        addCart
+        allPrice,
+        addCart,
+        delCart
     }
 }, {
     persist: true
