@@ -1,14 +1,11 @@
 // 封装购物测模块
 
 import {defineStore} from "pinia";
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 
 export const useCartStore = defineStore('Cart', () => {
     // 1 定义state - cartList
     const cartList = ref([])
-
-    const allPrice = ref(0)
-
     // 2 定义action - addCart
     const addCart = (goods) => {
         // 添加购物车操作
@@ -19,21 +16,28 @@ export const useCartStore = defineStore('Cart', () => {
         } else {
             cartList.value.push(goods)
         }
-        console.log(allPrice)
-        allPrice.value += parseFloat(goods.price)
-        console.log(allPrice)
+        console.log("cartList:", cartList.value)
+        console.log("carList.count", cartList.value[0].count)
+        console.log("carList.price", cartList.value[0].price)
     }
 
+    // 删除购物车
     const delCart = (skuId) => {
         // 根据skuId删除数据 1 findIndex   2 filter
         const index = cartList.value.findIndex(item => item.skuId === skuId)
-        allPrice.value -= parseFloat(cartList.value[index].price)
         cartList.value.splice(index, 1)
         // cartList.value = cartList.value.filter(item => item.skuId !== skuId)
     }
 
+    // 计算属性
+    // 1. 总的数量 所有项的count之和
+    const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
+    // 2. 总价 所有项的count*price之和
+    const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
+
     return {
         cartList,
+        allCount,
         allPrice,
         addCart,
         delCart
