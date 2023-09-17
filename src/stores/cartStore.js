@@ -29,18 +29,26 @@ export const useCartStore = defineStore('Cart', () => {
         // cartList.value = cartList.value.filter(item => item.skuId !== skuId)
     }
 
+    // 单选功能
+    const singleCheck = (skuId, selected) => {
+        const item = cartList.value.find(item => item.skuId === skuId)
+        item.selected = selected
+    }
+
     // 计算属性
     // 1. 总的数量 所有项的count之和
     const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
     // 2. 总价 所有项的count*price之和
     const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
+    // 3.
 
     return {
         cartList,
         allCount,
         allPrice,
         addCart,
-        delCart
+        delCart,
+        singleCheck,
     }
 }, {
     persist: true

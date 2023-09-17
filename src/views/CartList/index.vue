@@ -2,6 +2,11 @@
 import {useCartStore} from "@/stores/cartStore";
 const cartStore = useCartStore()
 
+// 这样写是因为现在本地购物车，后面连接服务器，需要实时更新这个
+const singleCheck = (i, selected) => {
+  cartStore.singleCheck(i.skuId, selected)
+}
+
 </script>
 
 <template>
@@ -25,7 +30,8 @@ const cartStore = useCartStore()
           <tbody>
           <tr v-for="i in cartStore.cartList" :key="i.id">
             <td>
-              <el-checkbox />
+              <!--<el-checkbox v-model="i.selected"/>-->
+              <el-checkbox :model-value="i.selected" @change="(selected) => singleCheck(i, selected)"/>
             </td>
             <td>
               <div class="goods">
