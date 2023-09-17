@@ -1,6 +1,7 @@
 import { defineStore} from "pinia";
 import {LoginAPI} from "@/apis/login";
 import {ref} from "vue";
+import {getNewCartListAPI} from "@/apis/cart";
 
 export const useUserStore =  defineStore('user', () => {
     // 1 定义管理用户数据的state
@@ -9,6 +10,8 @@ export const useUserStore =  defineStore('user', () => {
     const getUserInfo = async ({account, password}) => {
         const res = await LoginAPI({account, password})
         userInfo.value = res.result
+        // 登录后同步用户购物车到本地
+        await getNewCartListAPI()
     }
     // 退出时清除用户信息
     const clearUserInfo = () => {

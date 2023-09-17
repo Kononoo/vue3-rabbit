@@ -2,8 +2,8 @@
 
 import {defineStore} from "pinia";
 import {ref, computed} from 'vue'
-import {useUserStore} from "@/stores/user";
-import {getNewCartListAPI, insertCartAPI} from "@/apis/cart";
+import {useUserStore} from "@/stores/userStore";
+import {delCartAPI, getNewCartListAPI, insertCartAPI} from "@/apis/cart";
 
 export const useCartStore = defineStore('Cart', () => {
     const userStore = useUserStore()
@@ -11,14 +11,20 @@ export const useCartStore = defineStore('Cart', () => {
 
     // 1 定义state - cartList
     const cartList = ref([])
+
+    // 获取最新列表的action
+    const updateNewList = async () => {
+        const res = await getNewCartListAPI()
+        cartList.value = res.result
+    }
+
     // 2 定义action - addCart
     const addCart = async (goods) => {
         const { skuId, count } = goods
-        if (isLogin) {
+        if (isLogin.value) {
             // 登录之后的购物车逻辑
             await insertCartAPI({ skuId, count })
-            const res = await getNewCartListAPI()
-            cartList.value = res.result
+            await updateNewList();
         } else {
             // 添加购物车操作
             console.log('添加', goods)
@@ -28,18 +34,20 @@ export const useCartStore = defineStore('Cart', () => {
             } else {
                 cartList.value.push(goods)
             }
-            console.log("cartList:", cartList.value)
-            console.log("carList.count", cartList.value[0].count)
-            console.log("carList.price", cartList.value[0].price)
         }
     }
 
     // 删除购物车
-    const delCart = (skuId) => {
-        // 根据skuId删除数据 1 findIndex   2 filter
-        const index = cartList.value.findIndex(item => item.skuId === skuId)
-        cartList.value.splice(index, 1)
-        // cartList.value = cartList.value.filter(item => item.skuId !== skuId)
+    const delCart = async (skuId) => {
+        if (isLogin.value) {
+            await delCartAPI([skuId])
+            await updateNewList()
+        } else {
+            // 根据skuId删除数据 1 findIndex   2 filter
+            const index = cartList.value.findIndex(item => item.skuId === skuId)
+            cartList.value.splice(index, 1)
+            // cartList.value = cartList.value.filter(item => item.skuId !== skuId)
+        }
     }
 
     // 单选功能action

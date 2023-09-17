@@ -4,7 +4,7 @@
 import router from "@/router";
 import {ref, reactive} from "vue";
 import {ElMessage} from "element-plus";
-import {useUserStore} from "@/stores/user";
+import {useUserStore} from "@/stores/userStore";
 
 const userStore = useUserStore()
 
