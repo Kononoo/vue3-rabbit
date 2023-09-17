@@ -18,6 +18,11 @@ export const useCartStore = defineStore('Cart', () => {
         cartList.value = res.result
     }
 
+    // 清除购物车功能
+    const clearCartList = () => {
+        cartList.value = []
+    }
+
     // 2 定义action - addCart
     const addCart = async (goods) => {
         const { skuId, count } = goods
@@ -85,6 +90,8 @@ export const useCartStore = defineStore('Cart', () => {
         delCart,
         singleCheck,
         addCheck,
+        updateNewList,
+        clearCartList
     }
 }, {
     persist: true
