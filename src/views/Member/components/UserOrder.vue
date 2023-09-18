@@ -4,14 +4,16 @@ import {getUserOrderAPI} from "@/apis/order";
 
 // 订单列表
 const orderList = ref([])
+const total = ref(0)
 const params = ref({
   orderState: 0,
   page: 1,
   pageSize: 2
 })
 const getOrderList = async () => {
-  const res = await getUserOrderAPI(params)
-  orderList.value = res.result.items
+  const {result} = await getUserOrderAPI(params)
+  orderList.value = result.items
+  total.value = result.counts
 }
 onMounted(() => {getOrderList()})
 
@@ -28,9 +30,15 @@ const tabTypes = [
 // tab栏切换
 const tabChange = (type) => {
   params.value.orderState = type
+  params.value.page = 1
   getOrderList()
 }
 
+// 页数切换
+const pageChange = (page) => {
+  params.value.page = page
+  getOrderList()
+}
 </script>
 
 <template>
@@ -59,7 +67,7 @@ const tabChange = (type) => {
               <div class="column goods">
                 <ul>
                   <li v-for="item in order.skus" :key="item.id">
-                    <a class="image" href="javascript:;">
+                    <a class="image" href="javascript:">
                       <img :src="item.image" alt="" />
                     </a>
                     <div class="info">
@@ -78,13 +86,13 @@ const tabChange = (type) => {
               <div class="column state">
                 <p>{{ order.orderState }}</p>
                 <p v-if="order.orderState === 3">
-                  <a href="javascript:;" class="green">查看物流</a>
+                  <a href="javascript:" class="green">查看物流</a>
                 </p>
                 <p v-if="order.orderState === 4">
-                  <a href="javascript:;" class="green">评价商品</a>
+                  <a href="javascript:" class="green">评价商品</a>
                 </p>
                 <p v-if="order.orderState === 5">
-                  <a href="javascript:;" class="green">查看评价</a>
+                  <a href="javascript:" class="green">查看评价</a>
                 </p>
               </div>
               <div class="column amount">
@@ -100,20 +108,20 @@ const tabChange = (type) => {
                 <el-button v-if="order.orderState === 3" type="primary" size="small">
                   确认收货
                 </el-button>
-                <p><a href="javascript:;">查看详情</a></p>
+                <p><a href="javascript:">查看详情</a></p>
                 <p v-if="[2, 3, 4, 5].includes(order.orderState)">
-                  <a href="javascript:;">再次购买</a>
+                  <a href="javascript:">再次购买</a>
                 </p>
                 <p v-if="[4, 5].includes(order.orderState)">
-                  <a href="javascript:;">申请售后</a>
+                  <a href="javascript:">申请售后</a>
                 </p>
-                <p v-if="order.orderState === 1"><a href="javascript:;">取消订单</a></p>
+                <p v-if="order.orderState === 1"><a href="javascript:">取消订单</a></p>
               </div>
             </div>
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination background @current-change="pageChange" :total="total" :page-size="params.pageSize" layout="prev, pager, next" />
           </div>
         </div>
       </div>
