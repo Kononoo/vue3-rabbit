@@ -1,7 +1,8 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import {getOrderAPI} from "@/apis/pay";
 import { useRoute } from 'vue-router'
+import {useCountDown} from "@/composables/useCountDown";
 // 获取订单数据
 const route = useRoute()
 const payInfo = ref({})
@@ -17,6 +18,12 @@ const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 const backURL = 'http://127.0.0.1:5173/paycallback'
 const redirectUrl = encodeURIComponent(backURL)
 const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
+
+const {formatTime, start} = useCountDown()
+onMounted(() => {
+  start(1800)
+})
+
 </script>
 
 <template>
