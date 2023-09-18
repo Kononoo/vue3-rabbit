@@ -4,7 +4,7 @@ import ImageView from '@/components/ImageView/index.vue'
 import xtxSku from "@/components/XtxSku/index.vue";
 export const componentPlugin = {
     install(app) {
-        // app.component('组件名', 组件配置对象)
+        // app.components('组件名', 组件配置对象)
         app.component('XtxImageView', ImageView)
         app.component('XtxSku', xtxSku)
     }
